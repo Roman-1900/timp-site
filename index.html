@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Timp — More Than Messenger</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+a:hover{opacity:.9}
+a:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid #0B120C;outline-offset:3px}
+.dark a:focus-visible,.dark input:focus-visible{outline-color:#45D62C}
+input::placeholder{color:#6A756D}
+.wrap{max-width:1200px;margin:0 auto;padding-left:24px;padding-right:24px;box-sizing:border-box}
+.h{font-family:Montserrat,sans-serif}
+.morph{position:absolute;animation:morph 14s ease-in-out infinite alternate}
+@keyframes morph{0%{border-radius:60% 40% 30% 70%/60% 30% 70% 40%;transform:rotate(0deg) scale(1)}50%{border-radius:30% 60% 70% 40%/50% 60% 30% 60%;transform:rotate(16deg) scale(1.07)}100%{border-radius:50% 50% 40% 60%/30% 70% 40% 60%;transform:rotate(-12deg) scale(.95)}}
+.sw{position:absolute;transform:skewX(-20deg);animation:sw 9s ease-in-out infinite alternate}
+@keyframes sw{from{transform:translate(0,0) skewX(-20deg)}to{transform:translate(34px,-22px) skewX(-20deg)}}
+.fl1{animation:fl 5s ease-in-out infinite}
+.fl2{animation:fl 6.5s ease-in-out infinite reverse}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.in{animation:inR .9s cubic-bezier(.2,.7,.2,1) both}
+.i2{animation-delay:.12s}.i3{animation-delay:.24s}.i4{animation-delay:.36s}.i5{animation-delay:.48s}
+@keyframes inR{from{opacity:0;transform:translateY(28px)}}
+@supports (animation-timeline:view()){.sr{animation:reveal linear both;animation-timeline:view();animation-range:entry 0% entry 40%}}
+@keyframes reveal{from{opacity:0;transform:translateY(48px) scale(.96)}}
+.btn{position:relative;overflow:hidden;transition:transform .2s ease}
+.btn:hover{transform:translateY(-3px) scale(1.02)}
+.btn:after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-20deg);animation:sh 3.4s ease-in-out infinite}
+@keyframes sh{0%{left:-60%}60%,100%{left:130%}}
+.tile{transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s ease}
+.tile:hover{transform:translateY(-8px);box-shadow:0 22px 44px rgba(11,18,12,.16)}
+.gword{background:linear-gradient(90deg,#1FAE12,#45D62C,#9CF07A,#1FAE12);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:gshift 8s linear infinite}
+@keyframes gshift{to{background-position:300% 0}}
+.draw{stroke-dasharray:340;stroke-dashoffset:340;animation:draw 1.6s ease .8s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.mq{overflow:hidden;background:#45D62C;color:#0B120C;padding:20px 0;border-top:3px solid #0B120C;border-bottom:3px solid #0B120C}
+.mqt{display:flex;width:max-content;animation:mq 38s linear infinite}
+@keyframes mq{to{transform:translateX(-50%)}}
+.mqg{display:flex;align-items:center;gap:28px;padding-right:28px;flex-shrink:0;font-family:Montserrat,sans-serif;font-weight:800;font-size:26px;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
+.sep{display:inline-block;width:14px;height:14px;background:#0B120C;transform:rotate(45deg);border-radius:3px;flex-shrink:0}
+.msg{opacity:0;animation:msg 12s ease infinite both}
+@keyframes msg{0%{opacity:0;transform:translateY(14px) scale(.97)}6%,84%{opacity:1;transform:none}92%,100%{opacity:0;transform:translateY(-6px)}}
+.td{width:8px;height:8px;border-radius:50%;background:#1FAE12;animation:td 1.2s ease-in-out infinite}
+@keyframes td{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-6px);opacity:1}}
+.tk{stroke-dasharray:26;stroke-dashoffset:26;animation:tk 5s ease infinite}
+@keyframes tk{0%{stroke-dashoffset:26}30%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:26}}
+.wv{width:6px;border-radius:3px;background:#45D62C;transform-origin:center;animation:wv 1s ease-in-out infinite}
+@keyframes wv{0%,100%{transform:scaleY(.25)}50%{transform:scaleY(1)}}
+.bar{transform-origin:bottom;animation:bar 3.6s ease-in-out infinite alternate}
+@keyframes bar{from{transform:scaleY(.18)}to{transform:scaleY(1)}}
+.scan{position:absolute;left:0;right:0;top:0;height:4px;background:#45D62C;box-shadow:0 0 18px 4px rgba(69,214,44,.8);animation:scan 2.6s ease-in-out infinite alternate}
+@keyframes scan{to{top:calc(100% - 4px)}}
+.nudge{animation:nudge 1.4s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(10px)}}
+.pulse{animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.pdot{width:9px;height:9px;border-radius:50%;background:#45D62C;animation:pd 2s infinite}
+@keyframes pd{0%{box-shadow:0 0 0 0 rgba(69,214,44,.7)}70%,100%{box-shadow:0 0 0 12px rgba(69,214,44,0)}}
+.av{animation:avf 3.4s ease-in-out infinite}
+@keyframes avf{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.prog{height:8px;border-radius:999px;background:rgba(11,18,12,.12);overflow:hidden}
+.pfill{height:8px;border-radius:999px;background:#45D62C;animation:pfill 5s ease-in-out infinite}
+@keyframes pfill{0%{width:8%}60%,100%{width:100%}}
+summary{list-style:none;cursor:pointer}
+summary::-webkit-details-marker{display:none}
+.plus{transition:transform .3s ease}
+details[open] .plus{transform:rotate(45deg)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.msg{opacity:1!important}.draw,.tk{stroke-dashoffset:0!important}}
+</style>
+
+<meta name="description" content="Timp — More Than Messenger. Чаты и звонки, задачи и планы, команды и проекты в одном приложении. Общайся. Планируй. Достигай.">
+<meta name="theme-color" content="#45D62C">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Timp — More Than Messenger">
+<meta property="og:description" content="Чаты и звонки, задачи и планы, команды и проекты — всё в одном приложении.">
+<meta property="og:locale" content="ru_RU">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+
+<div style="position:relative;overflow:clip;width:100%;box-sizing:border-box;background:#FFFFFF;color:#0B120C;font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.55">
+
+<!-- Шапка -->
+<header>
+<div class="wrap" style="padding-top:20px;padding-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:16px 32px;flex-wrap:wrap">
+<a href="#top" aria-label="Timp — на главную" style="display:flex;align-items:center;gap:8px">
+<svg aria-hidden="true" width="38" height="61" viewBox="0 0 100 160" fill="none"><defs><linearGradient id="cg1" gradientUnits="userSpaceOnUse" x1="10" y1="10" x2="90" y2="150"><stop offset="0" stop-color="#5BCB7C"/><stop offset="1" stop-color="#16703E"/></linearGradient><radialGradient id="cd1" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#FFF176"/><stop offset="1" stop-color="#E5B300"/></radialGradient></defs><path d="M70 18H40Q16 18 16 42V112A33 33 0 0 0 82 112V60A23 23 0 0 0 36 60V106A13 13 0 0 0 62 106V86" stroke="url(#cg1)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><path d="M70 18H40Q16 18 16 42V112A33 33 0 0 0 82 112V60A23 23 0 0 0 36 60V106A13 13 0 0 0 62 106V86" stroke="#FFFFFF" stroke-opacity="0.28" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" transform="translate(-2.5 -2)"/><circle cx="62" cy="66" r="7.5" fill="url(#cd1)"/></svg>
+<span class="h" style="font-weight:800;font-size:36px;letter-spacing:-0.04em">Timp</span>
+</a>
+<nav aria-label="Основная навигация" style="display:flex;gap:8px 28px;flex-wrap:wrap;font-weight:500;font-size:16px">
+<a href="#features" data-i18n="nav_features">Возможности</a>
+<a href="#steps" data-i18n="nav_steps">Как это работает</a>
+<a href="#download" data-i18n="nav_download">Скачать</a>
+<a href="#faq" data-i18n="nav_faq">Вопросы</a>
+<a href="client.html" style="font-weight:700;border-bottom:3px solid #45D62C" data-i18n="nav_client">Клиент</a>
+</nav>
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<a href="#download" style="padding:12px 18px;font-weight:600;font-size:15px" data-i18n="header_login">Войти</a>
+<a href="#download" class="btn" style="padding:13px 24px;border-radius:999px;background:#0B120C;color:#FFFFFF;font-weight:600;font-size:15px" data-i18n="header_register">Регистрация</a>
+</div>
+</div>
+</header>
+
+<!-- Первый экран -->
+<section id="top" style="position:relative">
+<div class="wrap" style="position:relative;padding-top:32px;padding-bottom:72px;display:flex;flex-wrap:wrap;gap:40px;align-items:center">
+<div style="flex:1 1 500px;min-width:0;display:flex;flex-direction:column;gap:28px">
+<span class="in h" style="align-self:flex-start;display:inline-flex;align-items:center;gap:10px;padding:9px 18px;border-radius:999px;background:#0B120C;color:#FFFFFF;font-weight:700;font-size:15px"><span class="pdot"></span>More Than <span style="color:#45D62C">Messenger.</span></span>
+<h1 class="in i2 h" style="margin:0;font-weight:800;font-size:clamp(46px,7vw,92px);line-height:1;letter-spacing:-0.04em">
+<span style="display:block" data-i18n="hero_h1_1">Общайся.</span>
+<span style="display:block" data-i18n="hero_h1_2">Планируй.</span>
+<span style="display:block;position:relative;width:fit-content"><span style="color:#23A114" data-i18n="hero_h1_3">Достигай.</span><svg aria-hidden="true" style="position:absolute;left:0;bottom:-10px;width:100%;height:14px" viewBox="0 0 300 14" preserveAspectRatio="none" fill="none"><path class="draw" d="M2 9 Q40 2 77 8 T152 8 T227 8 T298 7" stroke="#45D62C" stroke-width="6" stroke-linecap="round"/></svg></span>
+</h1>
+<p class="in i3" style="margin:0;font-size:19px;color:#3E4A41;max-width:500px" data-i18n="hero_lead">Чаты и звонки, задачи и планы, команды и проекты — всё в одном приложении Timp.</p>
+<div class="in i4" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+<a href="#download" class="btn" style="display:inline-flex;align-items:center;gap:12px;padding:10px 22px 10px 18px;border-radius:16px;background:#0B120C;color:#FFFFFF"><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#45D62C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span style="display:flex;flex-direction:column;line-height:1.15"><span style="font-size:11px;opacity:.8" data-i18n="as_label">Загрузите в</span><span class="h" style="font-weight:700;font-size:18px">App Store</span></span></a>
+<a href="#download" class="btn" style="display:inline-flex;align-items:center;gap:12px;padding:10px 22px 10px 18px;border-radius:16px;background:#0B120C;color:#FFFFFF"><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#45D62C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span style="display:flex;flex-direction:column;line-height:1.15"><span style="font-size:11px;opacity:.8" data-i18n="gp_label">Доступно в</span><span class="h" style="font-weight:700;font-size:18px">Google Play</span></span></a>
+</div>
+<p class="in i5 h" style="margin:0;font-weight:700;font-size:18px;display:flex;align-items:center;gap:12px">mytimp.ru<span aria-hidden="true" style="display:inline-block;width:44px;height:4px;border-radius:4px;background:#45D62C"></span></p>
+</div>
+
+<!-- Сцена с телефоном -->
+<div style="flex:1 1 440px;min-width:0;display:flex;justify-content:center">
+<div class="in i3" style="position:relative;width:100%;max-width:520px;min-height:640px">
+<div class="sw" aria-hidden="true" style="left:6%;top:4%;width:46%;height:86%;background:#45D62C;border-radius:44px 0 44px 0"></div>
+<div class="sw" aria-hidden="true" style="left:46%;top:14%;width:34%;height:80%;background:#0B120C;border-radius:0 44px 0 44px;animation-delay:-3s;animation-duration:11s"></div>
+<div class="sw" aria-hidden="true" style="left:70%;top:-2%;width:22%;height:56%;background:#BFF5A9;border-radius:44px 0 44px 0;animation-delay:-5s"></div>
+
+<!-- Телефон -->
+<div class="fl1" style="position:absolute;left:50%;top:20px;margin-left:-150px;width:300px;box-sizing:border-box;filter:drop-shadow(0 28px 30px rgba(11,18,12,.3))">
+<div style="width:300px;height:590px;box-sizing:border-box;background:#FFFFFF;border:10px solid #0B120C;border-radius:46px;padding:22px 14px 14px;display:flex;flex-direction:column;gap:12px;overflow:hidden">
+<div style="display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid #E5EAE6">
+<span style="width:40px;height:40px;border-radius:50%;background:#E4FAD9;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="20" height="32" viewBox="0 0 100 160" fill="none"><defs><linearGradient id="cg2" gradientUnits="userSpaceOnUse" x1="10" y1="10" x2="90" y2="150"><stop offset="0" stop-color="#5BCB7C"/><stop offset="1" stop-color="#16703E"/></linearGradient><radialGradient id="cd2" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#FFF176"/><stop offset="1" stop-color="#E5B300"/></radialGradient></defs><path d="M70 18H40Q16 18 16 42V112A33 33 0 0 0 82 112V60A23 23 0 0 0 36 60V106A13 13 0 0 0 62 106V86" stroke="url(#cg2)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><circle cx="62" cy="66" r="8" fill="url(#cd2)"/></svg></span>
+<span style="display:flex;flex-direction:column;line-height:1.2"><span class="h" style="font-weight:700;font-size:15px" data-i18n="phone_team">Команда Timp</span><span style="font-size:12px;color:#187F0E" data-i18n="phone_online">в сети</span></span>
+<span style="margin-left:auto;display:flex;align-items:center;gap:3px;height:22px" aria-hidden="true"><i class="wv" style="height:12px"></i><i class="wv" style="height:20px;animation-delay:.2s"></i><i class="wv" style="height:14px;animation-delay:.4s"></i></span>
+</div>
+<div class="msg" style="animation-delay:.2s;align-self:flex-start;max-width:80%;padding:9px 13px;border-radius:16px 16px 16px 4px;background:#F0F3F1;font-size:14px" data-i18n="phone_msg1">Привет! Давайте запустим проект</div>
+<div class="msg" style="animation-delay:1.4s;align-self:flex-end;max-width:80%;padding:9px 13px;border-radius:16px 16px 4px 16px;background:#45D62C;color:#0B120C;font-weight:500;font-size:14px" data-i18n="phone_msg2">Отлично, создаю план</div>
+<div class="msg" style="animation-delay:2.6s;background:#0B120C;color:#FFFFFF;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px">
+<span class="h" style="font-weight:700;font-size:14px" data-i18n="phone_plan_title">План проекта</span>
+<span style="display:flex;align-items:center;gap:10px;font-size:13px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" fill="#45D62C"/><path class="tk" d="M7 12.5l3.2 3.2L17 8.8" stroke="#0B120C" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="phone_task1">Собрать команду</span></span>
+<span style="display:flex;align-items:center;gap:10px;font-size:13px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" fill="#45D62C"/><path class="tk" d="M7 12.5l3.2 3.2L17 8.8" stroke="#0B120C" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="animation-delay:.7s"/></svg><span data-i18n="phone_task2">Поставить задачи</span></span>
+<span style="display:flex;align-items:center;gap:10px;font-size:13px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="#8A968D" stroke-width="2"/></svg><span data-i18n="phone_task3">Запустить</span></span>
+<div class="prog" style="background:rgba(255,255,255,.16)"><div class="pfill"></div></div>
+</div>
+<div class="msg" style="animation-delay:3.8s;display:inline-flex;gap:6px;padding:11px 14px;border-radius:16px;background:#F0F3F1;align-self:flex-start" aria-hidden="true"><span class="td"></span><span class="td" style="animation-delay:.2s"></span><span class="td" style="animation-delay:.4s"></span></div>
+<div style="margin-top:auto;display:flex;justify-content:space-around;padding-top:10px;border-top:1px solid #E5EAE6" aria-hidden="true">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#187F0E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8A968D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8A968D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3.5 19c.6-3 2.7-4.5 5.5-4.5s4.9 1.5 5.5 4.5M15 14.8c2.6-.3 4.5.9 5.5 3.7"/></svg>
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8A968D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20v-6M12 20V6M19 20v-9"/></svg>
+</div>
+</div>
+</div>
+
+<!-- Плавающие карточки -->
+<div class="fl2" style="position:absolute;left:-2%;top:26%;display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:18px;background:#FFFFFF;border:2px solid #0B120C;box-shadow:5px 5px 0 #0B120C;font-weight:600;font-size:15px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#187F0E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg><span data-i18n="float_chat">Чаты и звонки</span></div>
+<div class="fl1" style="position:absolute;right:-2%;top:56%;display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:18px;background:#45D62C;border:2px solid #0B120C;box-shadow:5px 5px 0 #0B120C;font-weight:700;font-size:15px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B120C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="float_tasks">Задачи и планы</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Бегущая строка -->
+<div class="mq" aria-hidden="true">
+<div class="mqt">
+<div class="mqg"><span data-i18n="mq_chat">Чаты и звонки</span><i class="sep"></i><span data-i18n="mq_tasks">Задачи и планы</span><i class="sep"></i><span data-i18n="mq_teams">Команды и проекты</span><i class="sep"></i><span data-i18n="mq_all">Всё в одном приложении</span><i class="sep"></i></div>
+<div class="mqg"><span data-i18n="mq_chat">Чаты и звонки</span><i class="sep"></i><span data-i18n="mq_tasks">Задачи и планы</span><i class="sep"></i><span data-i18n="mq_teams">Команды и проекты</span><i class="sep"></i><span data-i18n="mq_all">Всё в одном приложении</span><i class="sep"></i></div>
+<div class="mqg"><span data-i18n="mq_chat">Чаты и звонки</span><i class="sep"></i><span data-i18n="mq_tasks">Задачи и планы</span><i class="sep"></i><span data-i18n="mq_teams">Команды и проекты</span><i class="sep"></i><span data-i18n="mq_all">Всё в одном приложении</span><i class="sep"></i></div>
+<div class="mqg"><span data-i18n="mq_chat">Чаты и звонки</span><i class="sep"></i><span data-i18n="mq_tasks">Задачи и планы</span><i class="sep"></i><span data-i18n="mq_teams">Команды и проекты</span><i class="sep"></i><span data-i18n="mq_all">Всё в одном приложении</span><i class="sep"></i></div>
+</div>
+</div>
+
+<!-- Возможности -->
+<section id="features">
+<div class="wrap" style="padding-top:96px;padding-bottom:96px;display:flex;flex-direction:column;gap:40px">
+<div class="sr" style="display:flex;flex-direction:column;gap:12px;max-width:680px">
+<h2 class="h" style="margin:0;font-weight:800;font-size:clamp(32px,4.2vw,54px);line-height:1.05;letter-spacing:-0.035em" data-i18n="feat_h2">Всё, что нужно команде, — <span class="gword">в одном месте</span></h2>
+<p style="margin:0;color:#3E4A41;font-size:18px" data-i18n="feat_sub">Общайтесь, планируйте и доводите проекты до результата, не переключаясь между приложениями.</p>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:20px">
+<div class="tile sr dark" style="flex:2 1 520px;min-width:0;box-sizing:border-box;border-radius:36px;padding:32px;background:#0B120C;color:#FFFFFF;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:14px;min-height:340px">
+<div class="morph" aria-hidden="true" style="right:-70px;top:-90px;width:250px;height:250px;background:#45D62C;opacity:.9"></div>
+<span style="position:relative;width:60px;height:60px;border-radius:20px;background:#45D62C;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0B120C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg></span>
+<h3 class="h" style="position:relative;margin:0;font-weight:800;font-size:34px;letter-spacing:-0.03em" data-i18n="tile1_title">Чаты и звонки</h3>
+<p style="position:relative;margin:0;font-size:17px;color:#D3DCD5;max-width:420px" data-i18n="tile1_desc">Личные и групповые чаты, голосовые и видеозвонки — ближе к людям, где бы они ни были.</p>
+<div style="position:relative;margin-top:auto;display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px" aria-hidden="true">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div class="msg" style="animation-delay:.2s;align-self:flex-start;padding:9px 14px;border-radius:16px 16px 16px 4px;background:rgba(255,255,255,.14);font-size:15px" data-i18n="tile1_msg1">Созвонимся в 15:00?</div>
+<div class="msg" style="animation-delay:1.4s;align-self:flex-end;padding:9px 14px;border-radius:16px 16px 4px 16px;background:#45D62C;color:#0B120C;font-weight:600;font-size:15px" data-i18n="tile1_msg2">Да, жду звонка</div>
+</div>
+<div style="display:flex;align-items:center;gap:5px;height:44px;padding:0 20px;border-radius:999px;background:rgba(255,255,255,.12)"><i class="wv" style="height:14px"></i><i class="wv" style="height:30px;animation-delay:.15s"></i><i class="wv" style="height:20px;animation-delay:.3s"></i><i class="wv" style="height:34px;animation-delay:.45s"></i><i class="wv" style="height:16px;animation-delay:.6s"></i><i class="wv" style="height:26px;animation-delay:.75s"></i></div>
+</div>
+</div>
+
+<div class="tile sr" style="flex:1 1 300px;min-width:0;box-sizing:border-box;border-radius:36px;padding:32px;background:#45D62C;color:#0B120C;border:2px solid #0B120C;display:flex;flex-direction:column;gap:14px;min-height:340px">
+<span style="width:60px;height:60px;border-radius:20px;background:#0B120C;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#45D62C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg></span>
+<h3 class="h" style="margin:0;font-weight:800;font-size:34px;letter-spacing:-0.03em" data-i18n="tile2_title">Задачи и планы</h3>
+<p style="margin:0;font-size:17px" data-i18n="tile2_desc">Ставьте задачи, сроки и планы прямо в переписке.</p>
+<div style="margin-top:auto;display:flex;flex-direction:column;gap:10px" aria-hidden="true">
+<span style="display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" fill="#0B120C"/><path class="tk" d="M7 12.5l3.2 3.2L17 8.8" stroke="#45D62C" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="tile2_task1">Макет готов</span></span>
+<span style="display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" fill="#0B120C"/><path class="tk" d="M7 12.5l3.2 3.2L17 8.8" stroke="#45D62C" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="animation-delay:.8s"/></svg><span data-i18n="tile2_task2">План согласован</span></span>
+<span style="display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="#0B120C" stroke-width="2"/></svg><span data-i18n="tile2_task3">Релиз</span></span>
+</div>
+</div>
+
+<div class="tile sr" style="flex:1 1 300px;min-width:0;box-sizing:border-box;border-radius:36px;padding:32px;background:#FFFFFF;color:#0B120C;border:2px solid #0B120C;display:flex;flex-direction:column;gap:14px;min-height:340px">
+<span style="width:60px;height:60px;border-radius:20px;background:#E4FAD9;border:2px solid #0B120C;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0B120C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3.5 19c.6-3 2.7-4.5 5.5-4.5s4.9 1.5 5.5 4.5M15 14.8c2.6-.3 4.5.9 5.5 3.7"/></svg></span>
+<h3 class="h" style="margin:0;font-weight:800;font-size:34px;letter-spacing:-0.03em" data-i18n="tile3_title">Команды и проекты</h3>
+<p style="margin:0;font-size:17px;color:#3E4A41" data-i18n="tile3_desc">Собирайте команды, делитесь файлами и ведите проекты вместе.</p>
+<div style="margin-top:auto;display:flex;align-items:center" aria-hidden="true">
+<span class="av" style="width:48px;height:48px;border-radius:50%;background:#45D62C;border:3px solid #FFFFFF;display:flex;align-items:center;justify-content:center;font-weight:800;font-family:Montserrat,sans-serif">А</span>
+<span class="av" style="width:48px;height:48px;border-radius:50%;background:#0B120C;color:#FFFFFF;border:3px solid #FFFFFF;margin-left:-12px;animation-delay:.4s;display:flex;align-items:center;justify-content:center;font-weight:800;font-family:Montserrat,sans-serif">М</span>
+<span class="av" style="width:48px;height:48px;border-radius:50%;background:#BFF5A9;border:3px solid #FFFFFF;margin-left:-12px;animation-delay:.8s;display:flex;align-items:center;justify-content:center;font-weight:800;font-family:Montserrat,sans-serif">Д</span>
+<span class="av" style="width:48px;height:48px;border-radius:50%;background:#F0F3F1;border:3px solid #FFFFFF;margin-left:-12px;animation-delay:1.2s;display:flex;align-items:center;justify-content:center;font-weight:800;font-family:Montserrat,sans-serif">+</span>
+</div>
+</div>
+
+<div class="tile sr" style="flex:2 1 520px;min-width:0;box-sizing:border-box;border-radius:36px;padding:32px;background:#F0F3F1;color:#0B120C;position:relative;overflow:hidden;display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;justify-content:space-between;min-height:340px">
+<div style="flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:14px;align-self:stretch">
+<span style="width:60px;height:60px;border-radius:20px;background:#0B120C;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#45D62C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20v-6M12 20V6M19 20v-9"/></svg></span>
+<h3 class="h" style="margin:0;font-weight:800;font-size:34px;letter-spacing:-0.03em" data-i18n="tile4_title">Всё в одном приложении</h3>
+<p style="margin:0;font-size:17px;color:#3E4A41;max-width:360px" data-i18n="tile4_desc">Общение, задачи и проекты в одном месте — для реальных результатов.</p>
+</div>
+<div style="flex:0 1 300px;display:flex;align-items:flex-end;gap:12px;height:200px" aria-hidden="true">
+<div class="bar" style="flex:1;height:50%;border-radius:12px 12px 0 0;background:#BFF5A9"></div>
+<div class="bar" style="flex:1;height:70%;border-radius:12px 12px 0 0;background:#8BE86A;animation-delay:.3s"></div>
+<div class="bar" style="flex:1;height:60%;border-radius:12px 12px 0 0;background:#45D62C;animation-delay:.6s"></div>
+<div class="bar" style="flex:1;height:90%;border-radius:12px 12px 0 0;background:#0B120C;animation-delay:.9s"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Шаги -->
+<section id="steps" style="background:#F0F3F1">
+<div class="wrap" style="padding-top:96px;padding-bottom:96px;display:flex;flex-direction:column;gap:40px">
+<h2 class="sr h" style="margin:0;font-weight:800;font-size:clamp(32px,4.2vw,54px);line-height:1.05;letter-spacing:-0.035em;max-width:700px" data-i18n="steps_h2">От общения — <span class="gword">к результату</span></h2>
+<div style="display:flex;flex-wrap:wrap;gap:20px">
+<div class="tile sr" style="flex:1 1 240px;min-width:0;box-sizing:border-box;border-radius:32px;padding:28px;background:#FFFFFF;display:flex;flex-direction:column;gap:14px">
+<span style="width:56px;height:56px;border-radius:50%;background:#E4FAD9;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#187F0E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg></span>
+<h3 class="h" style="margin:0;font-weight:800;font-size:24px;letter-spacing:-0.02em" data-i18n="step1_title">Общайся</h3>
+<p style="margin:0;color:#3E4A41;font-size:16px" data-i18n="step1_desc">Ближе к людям</p>
+<div class="prog"><div class="pfill"></div></div>
+</div>
+<div class="tile sr" style="flex:1 1 240px;min-width:0;box-sizing:border-box;border-radius:32px;padding:28px;background:#FFFFFF;display:flex;flex-direction:column;gap:14px">
+<span style="width:56px;height:56px;border-radius:50%;background:#E4FAD9;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#187F0E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg></span>
+<h3 class="h" style="margin:0;font-weight:800;font-size:24px;letter-spacing:-0.02em" data-i18n="step2_title">Планируй</h3>
+<p style="margin:0;color:#3E4A41;font-size:16px" data-i18n="step2_desc">Больше возможностей</p>
+<div class="prog"><div class="pfill" style="animation-delay:.5s"></div></div>
+</div>
+<div class="tile sr" style="flex:1 1 240px;min-width:0;box-sizing:border-box;border-radius:32px;padding:28px;background:#FFFFFF;display:flex;flex-direction:column;gap:14px">
+<span style="width:56px;height:56px;border-radius:50%;background:#E4FAD9;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#187F0E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3.5 19c.6-3 2.7-4.5 5.5-4.5s4.9 1.5 5.5 4.5M15 14.8c2.6-.3 4.5.9 5.5 3.7"/></svg></span>
+<h3 class="h" style="margin:0;font-weight:800;font-size:24px;letter-spacing:-0.02em" data-i18n="step3_title">Делай вместе</h3>
+<p style="margin:0;color:#3E4A41;font-size:16px" data-i18n="step3_desc">Сильнее команда</p>
+<div class="prog"><div class="pfill" style="animation-delay:1s"></div></div>
+</div>
+<div class="tile sr" style="flex:1 1 240px;min-width:0;box-sizing:border-box;border-radius:32px;padding:28px;background:#0B120C;color:#FFFFFF;display:flex;flex-direction:column;gap:14px">
+<span style="width:56px;height:56px;border-radius:50%;background:#45D62C;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B120C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20v-6M12 20V6M19 20v-9"/></svg></span>
+<h3 class="h" style="margin:0;font-weight:800;font-size:24px;letter-spacing:-0.02em" data-i18n="step4_title">Достигай</h3>
+<p style="margin:0;color:#D3DCD5;font-size:16px" data-i18n="step4_desc">Реальные результаты</p>
+<div class="prog" style="background:rgba(255,255,255,.18)"><div class="pfill" style="animation-delay:1.5s"></div></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Скачать -->
+<section id="download" class="dark" style="position:relative;overflow:hidden;background:#0B120C;color:#FFFFFF">
+<div class="sw" aria-hidden="true" style="left:-6%;top:-10%;width:22%;height:130%;background:#45D62C;border-radius:0 60px 0 60px;opacity:.95"></div>
+<div class="sw" aria-hidden="true" style="right:-8%;top:30%;width:16%;height:90%;background:#1B3A22;border-radius:60px 0 60px 0;animation-delay:-4s"></div>
+<div class="wrap" style="position:relative;padding-top:96px;padding-bottom:96px;display:flex;flex-wrap:wrap;gap:56px;align-items:center;justify-content:center">
+<div class="sr" style="flex:0 0 auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:center">
+<div style="position:relative;overflow:hidden;width:260px;height:260px;box-sizing:border-box;padding:22px;border-radius:32px;background:#FFFFFF;box-shadow:10px 10px 0 #45D62C">
+<svg role="img" aria-label="QR-код для перехода на mytimp.ru" data-i18n-aria="qr_aria" width="216" height="216" viewBox="-2 -2 29 29" shape-rendering="crispEdges"><path fill="#0B120C" d="M0 0h7v1h-7zM8 0h4v1h-4zM15 0h1v1h-1zM18 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h1v1h-1zM11 1h1v1h-1zM14 1h1v1h-1zM16 1h1v1h-1zM18 1h1v1h-1zM24 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM9 2h1v1h-1zM11 2h3v1h-3zM18 2h1v1h-1zM20 2h3v1h-3zM24 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h2v1h-2zM11 3h1v1h-1zM15 3h2v1h-2zM18 3h1v1h-1zM20 3h3v1h-3zM24 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM13 4h4v1h-4zM18 4h1v1h-1zM20 4h3v1h-3zM24 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM10 5h2v1h-2zM14 5h1v1h-1zM16 5h1v1h-1zM18 5h1v1h-1zM24 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h7v1h-7zM8 7h2v1h-2zM13 7h3v1h-3zM0 8h1v1h-1zM2 8h2v1h-2zM5 8h3v1h-3zM9 8h2v1h-2zM13 8h2v1h-2zM18 8h1v1h-1zM21 8h1v1h-1zM23 8h2v1h-2zM0 9h1v1h-1zM2 9h1v1h-1zM5 9h1v1h-1zM7 9h1v1h-1zM9 9h3v1h-3zM16 9h2v1h-2zM19 9h1v1h-1zM23 9h1v1h-1zM1 10h3v1h-3zM6 10h2v1h-2zM9 10h2v1h-2zM12 10h1v1h-1zM14 10h1v1h-1zM17 10h4v1h-4zM0 11h1v1h-1zM2 11h3v1h-3zM8 11h2v1h-2zM12 11h4v1h-4zM17 11h1v1h-1zM20 11h3v1h-3zM2 12h1v1h-1zM4 12h4v1h-4zM11 12h1v1h-1zM17 12h2v1h-2zM20 12h1v1h-1zM22 12h3v1h-3zM9 13h3v1h-3zM13 13h1v1h-1zM15 13h1v1h-1zM18 13h3v1h-3zM24 13h1v1h-1zM1 14h1v1h-1zM3 14h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM10 14h1v1h-1zM12 14h1v1h-1zM14 14h1v1h-1zM16 14h2v1h-2zM20 14h1v1h-1zM22 14h2v1h-2zM0 15h1v1h-1zM3 15h1v1h-1zM5 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM12 15h2v1h-2zM15 15h1v1h-1zM18 15h3v1h-3zM24 15h1v1h-1zM2 16h1v1h-1zM5 16h2v1h-2zM8 16h1v1h-1zM11 16h1v1h-1zM16 16h9v1h-9zM8 17h1v1h-1zM10 17h1v1h-1zM12 17h2v1h-2zM15 17h2v1h-2zM20 17h1v1h-1zM22 17h1v1h-1zM24 17h1v1h-1zM0 18h7v1h-7zM8 18h5v1h-5zM16 18h1v1h-1zM18 18h1v1h-1zM20 18h1v1h-1zM22 18h3v1h-3zM0 19h1v1h-1zM6 19h1v1h-1zM8 19h1v1h-1zM10 19h1v1h-1zM12 19h1v1h-1zM15 19h2v1h-2zM20 19h1v1h-1zM0 20h1v1h-1zM2 20h3v1h-3zM6 20h1v1h-1zM9 20h1v1h-1zM11 20h3v1h-3zM16 20h6v1h-6zM0 21h1v1h-1zM2 21h3v1h-3zM6 21h1v1h-1zM8 21h2v1h-2zM12 21h3v1h-3zM17 21h2v1h-2zM20 21h5v1h-5zM0 22h1v1h-1zM2 22h3v1h-3zM6 22h1v1h-1zM8 22h2v1h-2zM11 22h3v1h-3zM15 22h4v1h-4zM20 22h1v1h-1zM22 22h2v1h-2zM0 23h1v1h-1zM6 23h1v1h-1zM18 23h1v1h-1zM20 23h1v1h-1zM22 23h1v1h-1zM0 24h7v1h-7zM8 24h3v1h-3zM12 24h1v1h-1zM14 24h1v1h-1zM17 24h8v1h-8z"/></svg>
+<div class="scan" aria-hidden="true"></div>
+</div>
+<svg class="nudge" aria-hidden="true" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#45D62C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+</div>
+<div class="sr" style="flex:1 1 380px;min-width:0;max-width:520px;display:flex;flex-direction:column;gap:22px">
+<h2 class="h" style="margin:0;font-weight:800;font-size:clamp(32px,4.2vw,54px);line-height:1.05;letter-spacing:-0.035em" data-i18n="dl_h2">Сканируй и <span style="color:#45D62C">присоединяйся!</span></h2>
+<p style="margin:0;font-size:18px;color:#D3DCD5" data-i18n="dl_sub">Наведите камеру на QR-код или скачайте приложение. Регистрация — по email.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px">
+<a href="#" class="btn" style="display:inline-flex;align-items:center;gap:12px;padding:10px 22px 10px 18px;border-radius:16px;background:#FFFFFF;color:#0B120C"><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#187F0E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span style="display:flex;flex-direction:column;line-height:1.15"><span style="font-size:11px;color:#3E4A41" data-i18n="as_label">Загрузите в</span><span class="h" style="font-weight:700;font-size:18px">App Store</span></span></a>
+<a href="#" class="btn" style="display:inline-flex;align-items:center;gap:12px;padding:10px 22px 10px 18px;border-radius:16px;background:#FFFFFF;color:#0B120C"><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#187F0E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span style="display:flex;flex-direction:column;line-height:1.15"><span style="font-size:11px;color:#3E4A41" data-i18n="gp_label">Доступно в</span><span class="h" style="font-weight:700;font-size:18px">Google Play</span></span></a>
+</div>
+<form id="signup" novalidate style="display:flex;flex-direction:column;gap:10px;padding:18px;border-radius:24px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18)">
+<label for="email" style="font-weight:600;font-size:14px;color:#D3DCD5" data-i18n="form_label">Или быстрая регистрация по email</label>
+<div style="display:flex;flex-wrap:wrap;gap:12px">
+<div style="flex:1 1 200px;min-width:0;display:flex;align-items:center;gap:10px;padding:0 16px;border-radius:14px;background:#FFFFFF">
+<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3E4A41" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>
+<input id="email" name="email" type="email" required autocomplete="email" aria-describedby="form-status" placeholder="name@example.com" style="flex:1;min-width:0;border:0;background:transparent;font-family:Inter,system-ui,sans-serif;font-size:18px;padding:15px 0;color:#0B120C">
+</div>
+<button type="submit" class="btn" style="flex:0 0 auto;padding:16px 26px;border-radius:14px;background:#45D62C;color:#0B120C;font-weight:700;font-size:16px;text-align:center;border:0;cursor:pointer;font-family:inherit" data-i18n="form_submit">Зарегистрироваться</button>
+</div>
+<p id="form-status" role="status" aria-live="polite" style="margin:0;min-height:22px;font-size:14px;font-weight:600;color:#D3DCD5"></p>
+</form>
+</div>
+</div>
+</section>
+
+<!-- Скоро -->
+<section>
+<div class="wrap" style="padding-top:96px;padding-bottom:24px;display:flex;flex-direction:column;gap:32px">
+<div class="sr" style="display:flex;flex-direction:column;gap:12px;max-width:680px">
+<h2 class="h" style="margin:0;font-weight:800;font-size:clamp(30px,3.8vw,48px);line-height:1.05;letter-spacing:-0.035em" data-i18n="soon_h2">Скоро в экосистеме <span class="gword">Timp</span></h2>
+<p style="margin:0;color:#3E4A41;font-size:18px" data-i18n="soon_sub">Один аккаунт откроет и другие сервисы.</p>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:16px">
+<div class="tile sr" style="flex:1 1 260px;min-width:0;box-sizing:border-box;display:flex;align-items:center;gap:16px;padding:20px 24px;border-radius:24px;border:2px solid #0B120C;background:#FFFFFF">
+<span style="width:52px;height:52px;border-radius:16px;background:#45D62C;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B120C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6 17v2M18 17v2M4 13l1.7-5.1A2 2 0 0 1 7.6 6.5h8.8a2 2 0 0 1 1.9 1.4L20 13v4H4z"/><circle cx="8" cy="14" r="0.8"/><circle cx="16" cy="14" r="0.8"/></svg></span>
+<span class="h" style="font-weight:700;font-size:20px" data-i18n="soon_taxi">Такси</span>
+<span style="margin-left:auto;font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px;background:#E4FAD9;color:#187F0E" data-i18n="soon_badge">Скоро</span>
+</div>
+<div class="tile sr" style="flex:1 1 260px;min-width:0;box-sizing:border-box;display:flex;align-items:center;gap:16px;padding:20px 24px;border-radius:24px;border:2px solid #0B120C;background:#FFFFFF">
+<span style="width:52px;height:52px;border-radius:16px;background:#0B120C;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#45D62C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/></svg></span>
+<span class="h" style="font-weight:700;font-size:20px" data-i18n="soon_delivery">Доставка</span>
+<span style="margin-left:auto;font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px;background:#E4FAD9;color:#187F0E" data-i18n="soon_badge">Скоро</span>
+</div>
+<div class="tile sr" style="flex:1 1 260px;min-width:0;box-sizing:border-box;display:flex;align-items:center;gap:16px;padding:20px 24px;border-radius:24px;border:2px solid #0B120C;background:#FFFFFF">
+<span style="width:52px;height:52px;border-radius:16px;background:#BFF5A9;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B120C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16a8 8 0 0 1-16 0zM9 7c0-1.5 1.5-1.5 1.5-3M13.5 7c0-1.5 1.5-1.5 1.5-3M8 21h8"/></svg></span>
+<span class="h" style="font-weight:700;font-size:20px" data-i18n="soon_food">Доставка еды</span>
+<span style="margin-left:auto;font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px;background:#E4FAD9;color:#187F0E" data-i18n="soon_badge">Скоро</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Вопросы -->
+<section id="faq">
+<div class="wrap" style="padding-top:72px;padding-bottom:96px;display:flex;flex-direction:column;gap:32px;max-width:900px">
+<h2 class="sr h" style="margin:0;font-weight:800;font-size:clamp(30px,3.8vw,48px);line-height:1.05;letter-spacing:-0.035em" data-i18n="faq_h2">Частые <span class="gword">вопросы</span></h2>
+<div style="display:flex;flex-direction:column;gap:14px">
+<details class="sr" style="background:#FFFFFF;border:2px solid #0B120C;border-radius:22px;padding:20px 24px;box-shadow:5px 5px 0 #45D62C" open>
+<summary style="display:flex;align-items:center;justify-content:space-between;gap:16px;font-weight:600;font-size:18px"><span data-i18n="faq_q1">Что такое Timp?</span><span class="plus" style="flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#45D62C;border:2px solid #0B120C;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B120C" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+<p style="margin:12px 0 0;color:#3E4A41;font-size:16px" data-i18n="faq_a1">Мессенджер, в котором чаты и звонки, задачи и планы, команды и проекты собраны в одном приложении.</p>
+</details>
+<details class="sr" style="background:#FFFFFF;border:2px solid #0B120C;border-radius:22px;padding:20px 24px;box-shadow:5px 5px 0 #45D62C">
+<summary style="display:flex;align-items:center;justify-content:space-between;gap:16px;font-weight:600;font-size:18px"><span data-i18n="faq_q2">Как начать?</span><span class="plus" style="flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#45D62C;border:2px solid #0B120C;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B120C" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+<p style="margin:12px 0 0;color:#3E4A41;font-size:16px" data-i18n="faq_a2">Отсканируйте QR-код или скачайте приложение, затем зарегистрируйтесь по адресу электронной почты и подтвердите его.</p>
+</details>
+<details class="sr" style="background:#FFFFFF;border:2px solid #0B120C;border-radius:22px;padding:20px 24px;box-shadow:5px 5px 0 #45D62C">
+<summary style="display:flex;align-items:center;justify-content:space-between;gap:16px;font-weight:600;font-size:18px"><span data-i18n="faq_q3">Подойдёт ли Timp для командной работы?</span><span class="plus" style="flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#45D62C;border:2px solid #0B120C;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B120C" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+<p style="margin:12px 0 0;color:#3E4A41;font-size:16px" data-i18n="faq_a3">Да. Создавайте команды и проекты, ставьте задачи и общайтесь в одном месте.</p>
+</details>
+<details class="sr" style="background:#FFFFFF;border:2px solid #0B120C;border-radius:22px;padding:20px 24px;box-shadow:5px 5px 0 #45D62C">
+<summary style="display:flex;align-items:center;justify-content:space-between;gap:16px;font-weight:600;font-size:18px"><span data-i18n="faq_q4">Что будет дальше?</span><span class="plus" style="flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#45D62C;border:2px solid #0B120C;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B120C" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+<p style="margin:12px 0 0;color:#3E4A41;font-size:16px" data-i18n="faq_a4">Мы расширяем экосистему: скоро в одном аккаунте появятся такси, доставка и доставка еды.</p>
+</details>
+</div>
+</div>
+</section>
+
+<!-- Подвал -->
+<footer style="background:#0B120C;color:#FFFFFF">
+<div class="wrap dark" style="padding-top:56px;padding-bottom:32px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-wrap:wrap;gap:40px">
+<div style="flex:2 1 280px;min-width:0;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:8px">
+<svg aria-hidden="true" width="34" height="54" viewBox="0 0 100 160" fill="none"><defs><linearGradient id="cg3" gradientUnits="userSpaceOnUse" x1="10" y1="10" x2="90" y2="150"><stop offset="0" stop-color="#7BE08F"/><stop offset="1" stop-color="#1F9A52"/></linearGradient><radialGradient id="cd3" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#FFF176"/><stop offset="1" stop-color="#E5B300"/></radialGradient></defs><path d="M70 18H40Q16 18 16 42V112A33 33 0 0 0 82 112V60A23 23 0 0 0 36 60V106A13 13 0 0 0 62 106V86" stroke="url(#cg3)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><circle cx="62" cy="66" r="7.5" fill="url(#cd3)"/></svg>
+<span class="h" style="font-weight:800;font-size:34px;letter-spacing:-0.04em">Timp</span>
+</div>
+<p class="h" style="margin:0;font-weight:700;font-size:17px">More Than <span style="color:#45D62C">Messenger.</span></p>
+<p style="margin:0;color:#B5C2B8;font-size:15px;max-width:320px" data-i18n="footer_tagline">Общайся. Планируй. Достигай.</p>
+</div>
+<div style="flex:1 1 160px;min-width:0;display:flex;flex-direction:column;gap:10px;font-size:15px">
+<span style="font-weight:600" data-i18n="footer_col1_title">Возможности</span>
+<a href="#features" style="color:#B5C2B8" data-i18n="footer_col1_l1">Чаты и звонки</a>
+<a href="#features" style="color:#B5C2B8" data-i18n="footer_col1_l2">Задачи и планы</a>
+<a href="#features" style="color:#B5C2B8" data-i18n="footer_col1_l3">Команды и проекты</a>
+</div>
+<div style="flex:1 1 160px;min-width:0;display:flex;flex-direction:column;gap:10px;font-size:15px">
+<span style="font-weight:600" data-i18n="footer_col2_title">Компания</span>
+<a href="#" style="color:#B5C2B8" data-i18n="footer_col2_l1">О Timp</a>
+<a href="#" style="color:#B5C2B8" data-i18n="footer_col2_l2">Партнёрам</a>
+<a href="#" style="color:#B5C2B8" data-i18n="footer_col2_l3">Контакты</a>
+</div>
+<div style="flex:1 1 160px;min-width:0;display:flex;flex-direction:column;gap:10px;font-size:15px">
+<span style="font-weight:600" data-i18n="footer_col3_title">Поддержка</span>
+<a href="#faq" style="color:#B5C2B8" data-i18n="footer_col3_l1">Помощь</a>
+<a href="#" style="color:#B5C2B8" data-i18n="footer_col3_l2">Условия использования</a>
+<a href="#" style="color:#B5C2B8" data-i18n="footer_col3_l3">Конфиденциальность</a>
+</div>
+</div>
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding-top:24px;border-top:1px solid rgba(255,255,255,.16);font-size:14px;color:#B5C2B8">
+<span data-i18n="footer_copyright">© 2026 Timp. Все права защищены.</span>
+<span class="h" style="font-weight:700;color:#FFFFFF;display:flex;align-items:center;gap:10px">mytimp.ru<span aria-hidden="true" style="display:inline-block;width:32px;height:3px;border-radius:3px;background:#45D62C"></span></span>
+<span style="display:flex;gap:14px"><a href="#" id="lang-ru" data-lang="ru" style="font-weight:600;color:#FFFFFF">RU</a><a href="#" id="lang-ro" data-lang="ro">RO</a></span>
+</div>
+</div>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  // Переключатель языка: RU (по умолчанию) / RO — румынский, он же официальный
+  // язык Республики Молдова («молдавский» де-факто — тот же румынский).
+  var RO = {
+    nav_features: 'Funcționalități',
+    nav_steps: 'Cum funcționează',
+    nav_download: 'Descarcă',
+    nav_faq: 'Întrebări',
+    nav_client: 'Client',
+    header_login: 'Autentificare',
+    header_register: 'Înregistrare',
+    hero_h1_1: 'Comunică.',
+    hero_h1_2: 'Planifică.',
+    hero_h1_3: 'Realizează.',
+    hero_lead: 'Chat-uri și apeluri, sarcini și planuri, echipe și proiecte — totul într-o singură aplicație Timp.',
+    as_label: 'Descarcă din',
+    gp_label: 'Disponibil pe',
+    phone_team: 'Echipa Timp',
+    phone_online: 'online',
+    phone_msg1: 'Salut! Hai să lansăm proiectul',
+    phone_msg2: 'Perfect, creez planul',
+    phone_plan_title: 'Planul proiectului',
+    phone_task1: 'Formează echipa',
+    phone_task2: 'Stabilește sarcinile',
+    phone_task3: 'Lansează',
+    float_chat: 'Chat-uri și apeluri',
+    float_tasks: 'Sarcini și planuri',
+    mq_chat: 'Chat-uri și apeluri',
+    mq_tasks: 'Sarcini și planuri',
+    mq_teams: 'Echipe și proiecte',
+    mq_all: 'Totul într-o aplicație',
+    feat_h2: 'Tot ce are nevoie echipa ta — <span class="gword">într-un singur loc</span>',
+    feat_sub: 'Comunicați, planificați și duceți proiectele la rezultat, fără să schimbați aplicațiile.',
+    tile1_title: 'Chat-uri și apeluri',
+    tile1_desc: 'Chat-uri personale și de grup, apeluri audio și video — mai aproape de oameni, oriunde s-ar afla.',
+    tile1_msg1: 'Ne sunăm la 15:00?',
+    tile1_msg2: 'Da, aștept apelul',
+    tile2_title: 'Sarcini și planuri',
+    tile2_desc: 'Stabiliți sarcini, termene și planuri direct în conversație.',
+    tile2_task1: 'Machetă gata',
+    tile2_task2: 'Plan aprobat',
+    tile2_task3: 'Lansare',
+    tile3_title: 'Echipe și proiecte',
+    tile3_desc: 'Formați echipe, partajați fișiere și gestionați proiecte împreună.',
+    tile4_title: 'Totul într-o aplicație',
+    tile4_desc: 'Comunicare, sarcini și proiecte într-un singur loc — pentru rezultate reale.',
+    steps_h2: 'De la comunicare — <span class="gword">la rezultat</span>',
+    step1_title: 'Comunică',
+    step1_desc: 'Mai aproape de oameni',
+    step2_title: 'Planifică',
+    step2_desc: 'Mai multe posibilități',
+    step3_title: 'Fă împreună',
+    step3_desc: 'Echipă mai puternică',
+    step4_title: 'Realizează',
+    step4_desc: 'Rezultate reale',
+    dl_h2: 'Scanează și <span style="color:#45D62C">alătură-te!</span>',
+    dl_sub: 'Îndreptați camera spre codul QR sau descărcați aplicația. Înregistrarea se face prin email.',
+    form_label: 'Sau înregistrare rapidă prin email',
+    form_submit: 'Înregistrează-te',
+    soon_h2: 'În curând în ecosistemul <span class="gword">Timp</span>',
+    soon_sub: 'Un singur cont va deschide și alte servicii.',
+    soon_taxi: 'Taxi',
+    soon_delivery: 'Livrare',
+    soon_food: 'Livrare mâncare',
+    soon_badge: 'În curând',
+    faq_h2: 'Întrebări <span class="gword">frecvente</span>',
+    faq_q1: 'Ce este Timp?',
+    faq_a1: 'Un mesager în care chat-uri și apeluri, sarcini și planuri, echipe și proiecte sunt reunite într-o singură aplicație.',
+    faq_q2: 'Cum încep?',
+    faq_a2: 'Scanați codul QR sau descărcați aplicația, apoi înregistrați-vă cu adresa de email și confirmați-o.',
+    faq_q3: 'Este Timp potrivit pentru lucrul în echipă?',
+    faq_a3: 'Da. Creați echipe și proiecte, stabiliți sarcini și comunicați într-un singur loc.',
+    faq_q4: 'Ce urmează?',
+    faq_a4: 'Extindem ecosistemul: în curând, în același cont vor apărea taxi, livrare colete și livrare mâncare.',
+    footer_tagline: 'Comunică. Planifică. Realizează.',
+    footer_col1_title: 'Funcționalități',
+    footer_col1_l1: 'Chat-uri și apeluri',
+    footer_col1_l2: 'Sarcini și planuri',
+    footer_col1_l3: 'Echipe și proiecte',
+    footer_col2_title: 'Companie',
+    footer_col2_l1: 'Despre Timp',
+    footer_col2_l2: 'Parteneri',
+    footer_col2_l3: 'Contact',
+    footer_col3_title: 'Suport',
+    footer_col3_l1: 'Ajutor',
+    footer_col3_l2: 'Termeni de utilizare',
+    footer_col3_l3: 'Confidențialitate',
+    footer_copyright: '© 2026 Timp. Toate drepturile rezervate.'
+  };
+  var RO_ARIA = { qr_aria: 'Cod QR pentru a accesa mytimp.ru' };
+  var FORM_MSG = {
+    ru: {
+      invalid: 'Проверьте адрес: он должен выглядеть как name@example.com',
+      soon: 'Регистрация скоро откроется — загляните позже.',
+      sending: 'Отправляем…',
+      ok: 'Готово! Адрес принят.',
+      fail: 'Не удалось отправить. Попробуйте ещё раз.'
+    },
+    ro: {
+      invalid: 'Verificați adresa: trebuie să arate ca name@example.com',
+      soon: 'Înregistrarea se va deschide în curând — reveniți mai târziu.',
+      sending: 'Se trimite…',
+      ok: 'Gata! Adresa a fost acceptată.',
+      fail: 'Nu s-a putut trimite. Încercați din nou.'
+    }
+  };
+
+  var i18nEls = Array.prototype.slice.call(document.querySelectorAll('[data-i18n]'));
+  var ruOriginal = new Map();
+  i18nEls.forEach(function (el) { ruOriginal.set(el, el.innerHTML); });
+
+  var ariaEls = Array.prototype.slice.call(document.querySelectorAll('[data-i18n-aria]'));
+  var ruAriaOriginal = new Map();
+  ariaEls.forEach(function (el) { ruAriaOriginal.set(el, el.getAttribute('aria-label')); });
+
+  var currentLang = 'ru';
+  var linkRu = document.getElementById('lang-ru');
+  var linkRo = document.getElementById('lang-ro');
+
+  function applyLang(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    i18nEls.forEach(function (el) {
+      var key = el.getAttribute('data-i18n');
+      el.innerHTML = lang === 'ro' && RO[key] != null ? RO[key] : ruOriginal.get(el);
+    });
+    ariaEls.forEach(function (el) {
+      var key = el.getAttribute('data-i18n-aria');
+      el.setAttribute('aria-label', lang === 'ro' && RO_ARIA[key] != null ? RO_ARIA[key] : ruAriaOriginal.get(el));
+    });
+    if (linkRu && linkRo) {
+      linkRu.style.fontWeight = lang === 'ru' ? '600' : '400';
+      linkRu.style.color = lang === 'ru' ? '#FFFFFF' : '';
+      linkRo.style.fontWeight = lang === 'ro' ? '600' : '400';
+      linkRo.style.color = lang === 'ro' ? '#FFFFFF' : '';
+    }
+    try { localStorage.setItem('timp-lang', lang); } catch (e) {}
+  }
+
+  if (linkRu) linkRu.addEventListener('click', function (e) { e.preventDefault(); applyLang('ru'); });
+  if (linkRo) linkRo.addEventListener('click', function (e) { e.preventDefault(); applyLang('ro'); });
+
+  try {
+    var savedLang = localStorage.getItem('timp-lang');
+    if (savedLang === 'ro') applyLang('ro');
+  } catch (e) {}
+
+  // TODO: укажите адрес API регистрации, например '/api/register'.
+  // Пока пусто — форма только проверяет адрес и показывает сообщение-заглушку.
+  var REGISTER_ENDPOINT = '';
+
+  var form = document.getElementById('signup');
+  var input = document.getElementById('email');
+  var status = document.getElementById('form-status');
+  var re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function say(msg, ok) {
+    status.textContent = msg;
+    status.style.color = ok ? '#45D62C' : '#FFB4A8';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var m = FORM_MSG[currentLang] || FORM_MSG.ru;
+    var value = input.value.trim();
+    if (!re.test(value)) {
+      input.setAttribute('aria-invalid', 'true');
+      say(m.invalid, false);
+      input.focus();
+      return;
+    }
+    input.removeAttribute('aria-invalid');
+    if (!REGISTER_ENDPOINT) {
+      say(m.soon, true);
+      return;
+    }
+    var btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    say(m.sending, true);
+    fetch(REGISTER_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: value })
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error('bad status');
+        say(m.ok, true);
+        form.reset();
+      })
+      .catch(function () {
+        say(m.fail, false);
+      })
+      .then(function () { btn.disabled = false; });
+  });
+})();
+</script>
+</body>
+</html>
