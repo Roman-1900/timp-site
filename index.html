@@ -101,8 +101,8 @@ details[open] .plus{transform:rotate(45deg)}
 <a href="client.html" style="font-weight:700;border-bottom:3px solid #45D62C" data-i18n="nav_client">Клиент</a>
 </nav>
 <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-<a href="#download" style="padding:12px 18px;font-weight:600;font-size:15px" data-i18n="header_login">Войти</a>
-<a href="#download" class="btn" style="padding:13px 24px;border-radius:999px;background:#0B120C;color:#FFFFFF;font-weight:600;font-size:15px" data-i18n="header_register">Регистрация</a>
+<a id="header-login" href="#download" style="padding:12px 18px;font-weight:600;font-size:15px" data-i18n="header_login">Войти</a>
+<a id="header-register" href="#download" class="btn" style="padding:13px 24px;border-radius:999px;background:#0B120C;color:#FFFFFF;font-weight:600;font-size:15px" data-i18n="header_register">Регистрация</a>
 </div>
 </div>
 </header>
@@ -412,6 +412,7 @@ details[open] .plus{transform:rotate(45deg)}
     nav_client: 'Client',
     header_login: 'Autentificare',
     header_register: 'Înregistrare',
+    header_cabinet: 'Cabinetul meu',
     hero_h1_1: 'Comunică.',
     hero_h1_2: 'Planifică.',
     hero_h1_3: 'Realizează.',
@@ -496,14 +497,14 @@ details[open] .plus{transform:rotate(45deg)}
       invalid: 'Проверьте адрес: он должен выглядеть как name@example.com',
       soon: 'Регистрация скоро откроется — загляните позже.',
       sending: 'Отправляем…',
-      ok: 'Готово! Адрес принят.',
+      ok: 'Готово! Открываем ваш кабинет…',
       fail: 'Не удалось отправить. Попробуйте ещё раз.'
     },
     ro: {
       invalid: 'Verificați adresa: trebuie să arate ca name@example.com',
       soon: 'Înregistrarea se va deschide în curând — reveniți mai târziu.',
       sending: 'Se trimite…',
-      ok: 'Gata! Adresa a fost acceptată.',
+      ok: 'Gata! Deschidem cabinetul tău…',
       fail: 'Nu s-a putut trimite. Încercați din nou.'
     }
   };
@@ -548,9 +549,18 @@ details[open] .plus{transform:rotate(45deg)}
     if (savedLang === 'ro') applyLang('ro');
   } catch (e) {}
 
-  // TODO: укажите адрес API регистрации, например '/api/register'.
-  // Пока пусто — форма только проверяет адрес и показывает сообщение-заглушку.
+  // Бэкенда пока нет (см. README): регистрация сохраняет аккаунт локально в
+  // этом браузере (localStorage, общий ключ с client.html) и открывает кабинет.
+  // Чтобы подключить реальный API, задайте REGISTER_ENDPOINT — тогда форма
+  // отправит {email} туда вместо локального сохранения.
   var REGISTER_ENDPOINT = '';
+
+  function nameFromEmail(email) {
+    var local = email.split('@')[0].split('+')[0];
+    var parts = local.replace(/[._-]+/g, ' ').trim().split(/\s+/).filter(Boolean);
+    if (!parts.length) return email;
+    return parts.map(function (p) { return p.charAt(0).toUpperCase() + p.slice(1); }).join(' ');
+  }
 
   var form = document.getElementById('signup');
   var input = document.getElementById('email');
@@ -574,7 +584,12 @@ details[open] .plus{transform:rotate(45deg)}
     }
     input.removeAttribute('aria-invalid');
     if (!REGISTER_ENDPOINT) {
-      say(m.soon, true);
+      try {
+        localStorage.setItem('timp-account', JSON.stringify({ email: value, name: nameFromEmail(value), registeredAt: Date.now() }));
+      } catch (e2) {}
+      say(m.ok, true);
+      form.reset();
+      setTimeout(function () { location.href = 'client.html'; }, 700);
       return;
     }
     var btn = form.querySelector('button[type="submit"]');
@@ -595,6 +610,23 @@ details[open] .plus{transform:rotate(45deg)}
       })
       .then(function () { btn.disabled = false; });
   });
+
+  // Если в этом браузере уже есть локальный аккаунт — шапка ведёт в кабинет.
+  try {
+    var acc = JSON.parse(localStorage.getItem('timp-account') || 'null');
+    if (acc && acc.email) {
+      var loginLink = document.getElementById('header-login');
+      var registerLink = document.getElementById('header-register');
+      if (loginLink) loginLink.href = 'client.html';
+      if (registerLink) {
+        registerLink.href = 'client.html';
+        registerLink.setAttribute('data-i18n', 'header_cabinet');
+        registerLink.textContent = 'Личный кабинет';
+        ruOriginal.set(registerLink, 'Личный кабинет');
+        if (currentLang === 'ro') registerLink.textContent = 'Cabinetul meu';
+      }
+    }
+  } catch (e3) {}
 })();
 </script>
 </body>

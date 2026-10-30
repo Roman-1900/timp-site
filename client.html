@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Timp — личный кабинет</title>
+<script>
+(function () {
+  try {
+    var acc = JSON.parse(localStorage.getItem('timp-account') || 'null');
+    if (!acc || !acc.email) location.replace('index.html');
+  } catch (e) { location.replace('index.html'); }
+})();
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -199,8 +207,8 @@ a:focus-visible{outline:3px solid #45D62C;outline-offset:3px}
 <div style="display:flex;align-items:center;gap:14px;padding:4px 4px 16px;border-bottom:1px solid var(--line)">
 <span style="flex:0 0 auto;width:48px;height:48px;border-radius:50%;padding:2px;box-sizing:border-box;background:conic-gradient(#45D62C,#FFD84D,#9CF07A,#45D62C)"><span style="width:100%;height:100%;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" class="sA" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></span></span>
 <span style="min-width:0;display:flex;flex-direction:column;line-height:1.3">
-<span class="h" style="font-weight:700;font-size:17px" data-i18n="user_name">Имя Фамилия</span>
-<span class="muted" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">name@example.com</span>
+<span class="h js-name" style="font-weight:700;font-size:17px" data-i18n="user_name">Имя Фамилия</span>
+<span class="muted js-email" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">name@example.com</span>
 </span>
 </div>
 <nav aria-label="Меню кабинета" style="display:flex;flex-direction:column;gap:2px;padding-top:6px">
@@ -225,8 +233,8 @@ a:focus-visible{outline:3px solid #45D62C;outline-offset:3px}
 <div class="avatar"><div class="avin"><svg class="sA" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></div></div>
 </div>
 <div style="margin-top:-44px;position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center">
-<span class="h" style="font-weight:700;font-size:20px" data-i18n="user_name">Имя Фамилия</span>
-<span class="muted" style="font-size:15px">name@example.com</span>
+<span class="h js-name" style="font-weight:700;font-size:20px" data-i18n="user_name">Имя Фамилия</span>
+<span class="muted js-email" style="font-size:15px">name@example.com</span>
 </div>
 </div>
 
@@ -338,7 +346,7 @@ a:focus-visible{outline:3px solid #45D62C;outline-offset:3px}
 </a>
 <a class="row" href="#">
 <span class="ico"><svg aria-hidden="true" class="sT" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></span>
-<span class="rt"><b data-i18n="acc_email">Электронная почта</b><span>name@example.com</span></span>
+<span class="rt"><b data-i18n="acc_email">Электронная почта</b><span class="js-email">name@example.com</span></span>
 <svg class="chev sT" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
 </a>
 <a class="row" href="#">
@@ -346,7 +354,7 @@ a:focus-visible{outline:3px solid #45D62C;outline-offset:3px}
 <span class="rt"><b data-i18n="acc_security">Безопасность</b><span data-i18n="acc_security_sub">Вход и защита аккаунта</span></span>
 <svg class="chev sT" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
 </a>
-<a class="row" href="index.html">
+<a class="row" href="index.html" id="logout-link">
 <span class="ico"><svg aria-hidden="true" class="sT" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4M10 8l-4 4 4 4M6 12h10"/></svg></span>
 <span class="rt"><b data-i18n="acc_logout">Выйти из аккаунта</b><span data-i18n="acc_logout_sub">Завершить сеанс на этом устройстве</span></span>
 <svg class="chev sT" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
@@ -435,6 +443,26 @@ a:focus-visible{outline:3px solid #45D62C;outline-offset:3px}
   var i18nEls = Array.prototype.slice.call(document.querySelectorAll('[data-i18n]'));
   var ruOriginal = new Map();
   i18nEls.forEach(function (el) { ruOriginal.set(el, el.innerHTML); });
+
+  try {
+    var acc = JSON.parse(localStorage.getItem('timp-account') || 'null');
+    if (acc && acc.email) {
+      var displayName = acc.name || acc.email;
+      document.querySelectorAll('.js-name').forEach(function (el) {
+        el.textContent = displayName;
+        ruOriginal.set(el, displayName);
+      });
+      document.querySelectorAll('.js-email').forEach(function (el) { el.textContent = acc.email; });
+      delete RO.user_name;
+    }
+  } catch (e) {}
+
+  var logoutLink = document.getElementById('logout-link');
+  if (logoutLink) {
+    logoutLink.addEventListener('click', function () {
+      try { localStorage.removeItem('timp-account'); } catch (e) {}
+    });
+  }
 
   var linkRu = document.getElementById('lang-ru');
   var linkRo = document.getElementById('lang-ro');
